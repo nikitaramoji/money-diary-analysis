@@ -1,1 +1,1 @@
-# moneydiaryanalysis
+# money-diary-analysis
