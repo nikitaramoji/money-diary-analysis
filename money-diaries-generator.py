@@ -6,7 +6,7 @@ import pickle
 from pprint import pprint
 
 general_url = 'https://www.refinery29.com/en-us/money-diary?page='
-corpus_url = 'corpus.txt'
+corpus_url = 'data/corpus.txt'
 all_urls = []
 
 def get_all_urls(general_url):
@@ -37,14 +37,24 @@ def get_single_url(url):
         page_text += item.get_text()
     return page_text
 
-def generate_corpus(general_url):
+def generate_singular_corpus(general_url):
     all_urls = get_all_urls(general_url)
     corpus = []
     for url in all_urls:
         corpus.append(get_single_url(url))
-    f = open('corpus.txt', 'wb')
+    f = open(corpus_url, 'wb')
     pickle.dump(corpus, f)
     f.close()
+
+def update_corpus_directory(general_url):
+    all_urls = get_all_urls(general_url)
+    i = 0
+    for url in all_urls:
+        filename = 'data/file_' + str(i) + '.txt'
+        f = open(filename, 'w')
+        f.write(get_single_url(url))
+        f.close()
+        i += 1
 
 def generate_markovify_money_diary(corpus_url):
     f = open(corpus_url, 'rb')
@@ -61,7 +71,8 @@ def generate_markovify_money_diary(corpus_url):
 
 def main():
   # generate_corpus(general_url)
-  generate_markovify_money_diary(corpus_url)
+  update_corpus_directory(general_url)
+  # generate_markovify_money_diary(corpus_url)
 
 if __name__== "__main__":
   main()
